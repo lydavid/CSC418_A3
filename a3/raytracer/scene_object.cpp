@@ -22,7 +22,6 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	//
 	// HINT: Remember to first transform the ray into object space  
 	// to simplify the intersection test.
-
 	
 	//Vector4D ray_origin = ;	
 	//Ray3D modelRay = worldToModel * ray;
@@ -39,7 +38,6 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	// t value used in point = ray.origin + t_value * ray.dir
 	//ray.intersection.t_value
 	//ray.intersection.t_value = dot((modelPoint - p0), normal) / dot(modelDir, normal);
-
 	//ray.intersection.t_value =  (modelPoint - p0).dot(normal) / modelDir.dot(normal);
 
 	float denom = modelDir.dot(normal);
