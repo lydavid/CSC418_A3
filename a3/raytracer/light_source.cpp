@@ -18,5 +18,6 @@ void PointLight::shade(Ray3D& ray) {
 	// is available.  So be sure that traverseScene() is called on the ray 
 	// before this function.  
 
+	Intersection intersect = ray.intersection;
 }
 
