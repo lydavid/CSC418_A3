@@ -27,12 +27,34 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	//Ray3D modelRay = worldToModel * ray;
 
 	// Transorming to object space
-	Point3D modelPoint = worldToModel * ray.origin;
-	Vector3D modelDir  = worldToModel * ray.dir;
+	Point3D origin = worldToModel * ray.origin;
+	Vector3D direction = worldToModel * ray.dir;
+	
+	double t = -origin[2] / direction[2];
 
+	if (t< 0 || direction[2] == 0)
+	{
+		return false;
+	}
+
+	Point3D p = origin + t * direction;
+	Vector3D normal = Vector3D(0, 0, 1);
+	
+	if (p[0] >= -0.5 && p[0] <= 0.5 && p[1] >= -0.5 && p[1]<=0.5)
+	{
+		ray.intersection.point = modelToWorld * p;
+		ray.intersection.normal = transNorm(worldToModel, normal);
+		ray.intersection.t_value = t;
+		ray.intersection.none = false;
+		return true;
+	}
+
+	
+
+	/*
 	// Point and normal of UnitSquare as stated in TODO
 	//Point3D p0 = Point3D(0.5, 0.5, 0);
-	Point3D p0 = Point3D(0, 0, 0);
+	Point3D p = Point3D(0, 0, 0);
 	Vector3D normal = Vector3D(0, 0, 1);
 
 	// t value used in point = ray.origin + t_value * ray.dir
@@ -41,19 +63,20 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	//ray.intersection.t_value =  (modelPoint - p0).dot(normal) / modelDir.dot(normal);
 
 	float denom = modelDir.dot(normal);
-	if (denom != 0)
+	if (p[0] >= -0.5 && p[0] <= 0.5 && p[1] >= -0.5 && p[1]<=0.5)
 	{
-		float t = (modelPoint - p0).dot(normal) / denom;
+		float t = (modelPoint - p).dot(normal) / denom;
 		Point3D point = modelPoint + (t * modelDir);
 		
 
 		// assign values should change back to world
 		ray.intersection.point = modelToWorld * point;
-		ray.intersection.normal = modelToWorld * normal;
+		ray.intersection.normal = transNorm(worldToModel, normal);
 		ray.intersection.t_value = t;
 		ray.intersection.none = false;
-	}
-
+		return true;
+	}*/
+	
 	return false;
 }
 
