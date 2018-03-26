@@ -1,3 +1,4 @@
+
 /***********************************************************
 	
 	Starter code for Assignment 3
@@ -22,17 +23,15 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	//
 	// HINT: Remember to first transform the ray into object space  
 	// to simplify the intersection test.
-	
-	//Vector4D ray_origin = ;	
-	//Ray3D modelRay = worldToModel * ray;
 
-	// Transorming to object space
+	// Transforming to object space
 	Point3D origin = worldToModel * ray.origin;
 	Vector3D direction = worldToModel * ray.dir;
 	
+	// t value used in point = ray.origin + t_value * ray.dir
 	double t = -origin[2] / direction[2];
 
-	if (t< 0 || direction[2] == 0)
+	if (t < 0 || direction[2] == 0)
 	{
 		return false;
 	}
@@ -48,34 +47,6 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		ray.intersection.none = false;
 		return true;
 	}
-
-	
-
-	/*
-	// Point and normal of UnitSquare as stated in TODO
-	//Point3D p0 = Point3D(0.5, 0.5, 0);
-	Point3D p = Point3D(0, 0, 0);
-	Vector3D normal = Vector3D(0, 0, 1);
-
-	// t value used in point = ray.origin + t_value * ray.dir
-	//ray.intersection.t_value
-	//ray.intersection.t_value = dot((modelPoint - p0), normal) / dot(modelDir, normal);
-	//ray.intersection.t_value =  (modelPoint - p0).dot(normal) / modelDir.dot(normal);
-
-	float denom = modelDir.dot(normal);
-	if (p[0] >= -0.5 && p[0] <= 0.5 && p[1] >= -0.5 && p[1]<=0.5)
-	{
-		float t = (modelPoint - p).dot(normal) / denom;
-		Point3D point = modelPoint + (t * modelDir);
-		
-
-		// assign values should change back to world
-		ray.intersection.point = modelToWorld * point;
-		ray.intersection.normal = transNorm(worldToModel, normal);
-		ray.intersection.t_value = t;
-		ray.intersection.none = false;
-		return true;
-	}*/
 	
 	return false;
 }
@@ -91,6 +62,49 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	//
 	// HINT: Remember to first transform the ray into object space  
 	// to simplify the intersection test.
+
+
+	// transform to object space
+	Point3D origin = worldToModel * ray.origin;
+	Vector3D direction = worldToModel * ray.dir;
+
+	double radius = 1; // radius of sphere
+	Point3D center = Point3D(0, 0, 0); // center of sphere
+
+	// source: shirley textbook
+	double a = direction.dot(direction);
+	double b = (2*direction).dot(origin - center);
+	double c = (origin - center).dot(origin - center) - pow(radius, 2);
+
+	double determinant = pow(b, 2) - (4 * a * c);
+	double t = 0;
+	if (determinant < 0)
+	{
+		return false;
+	}
+	else
+	{
+		
+		double t1 = (-direction.dot(origin - center) + sqrt(determinant)) / a;
+		double t2 = (-direction.dot(origin - center) - sqrt(determinant)) / a;
+
+		t = (t1 > 0) ? t1 : t2;
+
+		if (determinant > 0)
+		{
+			t = (t1 > t2) ? t2 : t1;
+		}
+
+		Point3D p = origin + t * direction;
+		Vector3D normal = 2 * (p - center);
+		normal.normalize();
+
+		ray.intersection.point = modelToWorld * p;
+		ray.intersection.normal = transNorm(worldToModel, normal);
+		ray.intersection.t_value = t;
+		ray.intersection.none = false;
+		return true;
+	}
 
 	return false;
 }
