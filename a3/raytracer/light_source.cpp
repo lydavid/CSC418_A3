@@ -38,6 +38,7 @@ void PointLight::shade(Ray3D& ray) {
 	float spec = fmax (0, viewVec.dot(reflection));
 	Color specular = pow(spec, mat->specular_exp) * (mat->specular * col_specular);
 	
+	//https://bb-2018-01.teach.cs.toronto.edu/t/what-should-be-the-correct-image-for-the-scene-signature/878
 	Color col = ambient + diffuse + specular;
 	col.clamp();
 	ray.col = col;
