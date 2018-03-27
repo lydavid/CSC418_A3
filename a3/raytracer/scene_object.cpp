@@ -36,6 +36,11 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		return false;
 	}
 
+	if (!ray.intersection.none && ray.intersection.t_value < t)
+	{
+		return false;
+	}
+
 	Point3D p = origin + t * direction;
 	Vector3D normal = Vector3D(0, 0, 1);
 	
@@ -87,6 +92,13 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		
 		double t1 = (-direction.dot(origin - center) + sqrt(determinant)) / a;
 		double t2 = (-direction.dot(origin - center) - sqrt(determinant)) / a;
+
+
+		// this part may be wrong quick check
+		if ((!ray.intersection.none && ray.intersection.t_value < t1) || (!ray.intersection.none && ray.intersection.t_value < t2) )
+		{
+			return false;
+		}
 
 		t = (t1 > 0) ? t1 : t2;
 
