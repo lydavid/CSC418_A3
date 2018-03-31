@@ -16,6 +16,11 @@
 #define M_PI	3.14159265358979323846
 #endif
 
+#define ANTIALIAS false
+#define HARD_SHADOW false
+#define SOFT_SHADOW false
+
+
 class Point3D {
 public:
 	Point3D(); 

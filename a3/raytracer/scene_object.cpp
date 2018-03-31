@@ -31,6 +31,7 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	// t value used in point = ray.origin + t_value * ray.dir
 	double t = -origin[2] / direction[2];
 
+	// from raytracing part1 slides
 	if (t < 0 || direction[2] == 0)
 	{
 		return false;
@@ -76,7 +77,7 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	double radius = 1; // radius of sphere
 	Point3D center = Point3D(0, 0, 0); // center of sphere
 
-	// source: shirley textbook
+	// from textbook
 	double a = direction.dot(direction);
 	double b = (2*direction).dot(origin - center);
 	double c = (origin - center).dot(origin - center) - pow(radius, 2);
@@ -106,6 +107,7 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		{
 			t = (t1 > t2) ? t2 : t1;
 		}
+
 
 		Point3D p = origin + t * direction;
 		Vector3D normal = 2 * (p - center);
