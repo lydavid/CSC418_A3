@@ -108,10 +108,56 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 			t = (t1 > t2) ? t2 : t1;
 		}
 
-
 		Point3D p = origin + t * direction;
 		Vector3D normal = 2 * (p - center);
 		normal.normalize();
+
+		if (TEXTURE_SPHERE) 
+		{
+			// source: https://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
+			
+			ray.intersection.mat->image = true;
+
+			double u, v;
+
+			//Vector3D d_x = Vector3D(1, 0, 0);
+			//Vector3D d_y = Vector3D(0, 1, 0);
+			//Vector3D d_z = Vector3D(0, 0, 1);
+
+			//u = 0.5 + (atan2(normal[2], normal[0])*(1/ 2 * M_PI));
+			//v = 0.5 - (asin(normal[1])*(1 / M_PI));
+
+
+			//Calculating the texture coordinate for a sphere
+			//u = 0.5 + atan2(normal[2], normal[0]) / (2 * M_PI);
+			//v = 0.5 - asin(normal[1]) / M_PI;
+
+			//u = 0.5 + atan2(normal[2], normal[0]) / (2 * M_PI);
+			//v = 0.5 - asin(normal[1]) / M_PI;
+
+			//u = 0.5 + ( atan2(normal[2], normal[0]) / 2 * M_PI );
+			//v = 0.5 - ( 2 * (asin(normal[1]) / (2 * M_PI)) );
+			
+			Vector3D v_n = Vector3D(0, 1, 0);
+			Vector3D v_e = Vector3D(1, 0, 0);
+			Vector3D v_p = normal;
+
+			double phi = acos(-v_n.dot(v_p));
+			v = phi / M_PI;
+
+			double theta =  (acos(v_p.dot(v_e) / sin(phi))) / (2 * M_PI);
+
+			if (v_p.dot(v_n.cross(v_e)) > 0) {
+				u = 0.5 + theta;
+			}
+			else {
+				u = 0.5 - theta;
+			}
+
+			ray.tex_u = u;
+			ray.tex_v = v;
+
+		}
 
 		ray.intersection.point = modelToWorld * p;
 		ray.intersection.normal = transNorm(worldToModel, normal);
