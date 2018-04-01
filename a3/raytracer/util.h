@@ -209,12 +209,18 @@ struct Ray3D {
 	Color col;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 =======
+=======
+>>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
 	// ADDED: check if in shadow
 	//bool shadow = false;
 	float tex_u;
 	float tex_v;
+<<<<<<< HEAD
+>>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
+=======
 >>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
 };
 

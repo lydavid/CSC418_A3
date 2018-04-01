@@ -44,6 +44,7 @@ void PointLight::shade(Ray3D& ray) {
 	Color black = Color(0, 0, 0);
 	Color col;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	/*if (HARD_SHADOW) {
 		col = black; // color = black?
 	}
@@ -65,6 +66,15 @@ void PointLight::shade(Ray3D& ray) {
 	//}
 	//else {
 		col = ambient + diffuse + specular;
+=======
+
+	
+	//if (ray.shadow) {
+	//	col = black; // color = black?
+	//}
+	//else {
+		col = ambient + diffuse + specular;
+>>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
 	//}
 	
 >>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
