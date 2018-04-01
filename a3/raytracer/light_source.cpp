@@ -43,41 +43,17 @@ void PointLight::shade(Ray3D& ray) {
 	//https://bb-2018-01.teach.cs.toronto.edu/t/what-should-be-the-correct-image-for-the-scene-signature/878
 	Color black = Color(0, 0, 0);
 	Color col;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	/*if (HARD_SHADOW) {
-		col = black; // color = black?
-	}
-	else {
-		
-	}*/
-	if (ray.intersection.inShadow) {
-		col = black;
+
+	if (HARD_SHADOW) {
+		if (ray.intersection.inShadow) {
+			col = black;
+		} else {
+			col = ambient + diffuse + specular;
+		}
 	} else {
 		col = ambient + diffuse + specular;
 	}
-	//col = ambient + diffuse + specular;
-
-=======
-
 	
-	//if (ray.shadow) {
-	//	col = black; // color = black?
-	//}
-	//else {
-		col = ambient + diffuse + specular;
-=======
-
-	
-	//if (ray.shadow) {
-	//	col = black; // color = black?
-	//}
-	//else {
-		col = ambient + diffuse + specular;
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
-	//}
-	
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
 	col.clamp();
 	ray.col = col;
 

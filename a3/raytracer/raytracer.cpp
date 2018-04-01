@@ -52,7 +52,6 @@ void Raytracer::computeShading(Ray3D& ray, LightList& light_list) {
 		//if (!shadowRay.intersection.none) {
 		//	ray.shadow = true;
 		//}
-<<<<<<< HEAD
 
 
 		/*if (ray.intersection.t_value > 0) {
@@ -63,8 +62,6 @@ void Raytracer::computeShading(Ray3D& ray, LightList& light_list) {
 		
 		
 
-=======
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
 
 		light->shade(ray);
 		
@@ -79,12 +76,7 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 	// anything.
 	if (!ray.intersection.none) {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-		
-=======
-=======
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
+
 		if (ray.intersection.mat->image) {
 			int width = ray.intersection.mat->texture_width;
 			int height = ray.intersection.mat->texture_height;
@@ -106,7 +98,7 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 		computeShading(ray, light_list);
 		col = ray.col;
 		/*
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
+
 		// iterate through lights to send ray to them
 		/*for (size_t i = 0; i < light_list.size(); i++) {
 			LightSource* light = light_list[i];
@@ -115,26 +107,22 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 			Ray3D shadowRay = Ray3D(origin, direction);
 			
 			
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			if (shadowRay.intersection.none) {
 				computeShading(shadowRay, light_list);
 				//col = ray.col;
-=======
-=======
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
+
 			if (!shadowRay.intersection.none) {
 				ray.shadow = true;
 				computeShading(ray, light_list);
 				col = ray.col;
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
+
 			}
 			else {
 				computeShading(ray, light_list);
 				col = ray.col;
 			}
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			
 
 		}*/
@@ -205,12 +193,7 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 
 		computeShading(ray, light_list); 
 		col = ray.col;  
-=======
-		}*/
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
-=======
-		}*/
->>>>>>> 0e88abc8f73ac5b13df4ec5146ad243ee5d0753b
+
 	}
 
 	// You'll want to call shadeRay recursively (with a different ray, 
