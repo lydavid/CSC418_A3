@@ -158,6 +158,9 @@ struct Intersection {
 	double t_value;	
 	// Set to true when no intersection has occured.
 	bool none;
+
+	// new stuff i just added
+	bool inShadow; // whether intersection is shadowed
 };
 
 // Ray structure. 
@@ -177,6 +180,8 @@ struct Ray3D {
 	// Current colour of the ray, should be computed by the shading
 	// function.
 	Color col;
+
+	
 };
 
 struct Camera {    

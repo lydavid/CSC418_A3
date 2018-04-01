@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 	//sphere_map(width, height);
 	cube_map(width, height);
 
-	getchar();
+	//getchar();
 	return 0;
 }
 
