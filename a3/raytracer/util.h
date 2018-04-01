@@ -19,6 +19,7 @@
 #define ANTIALIAS false
 #define HARD_SHADOW false
 #define SOFT_SHADOW false
+#define TEXTURE_SPHERE true
 
 
 class Point3D {
@@ -133,7 +134,14 @@ struct Material {
 	Material(Color ambient, Color diffuse, Color specular, double exp) :
 		ambient(ambient), diffuse(diffuse), specular(specular), 
 		specular_exp(exp) {}
-	
+
+	// creating a new material that will be mapped from img
+	Material(int w, int h, unsigned char *r, unsigned char *g, unsigned char *b) :
+		texture_width(w), texture_height(h), 
+		rarray(r), garray(g), barray(b) {
+		image = true;
+	}
+
 	// Ambient components for Phong shading.
 	Color ambient; 
 	// Diffuse components for Phong shading.
@@ -142,7 +150,26 @@ struct Material {
 	Color specular;
 	// Specular expoent.
 	double specular_exp;
+
+	// Info for image 
+	bool image = false;
+	int texture_width;
+	int texture_height;
+	unsigned char *rarray;
+	unsigned char *garray;
+	unsigned char *barray;
 };
+
+/* Actually nvm easier just to add it to material so don't have to modify addObject 
+and can append texture to sphere easier
+// ADDED TEXTURE STRUCT SO I CAN PASS THE INFO AROUND
+struct Texture {
+	int texture_width;
+	int texture_height;
+	unsigned char *rarray;
+	unsigned char *garray;
+	unsigned char *barray;
+};*/
 
 struct Intersection {
 	// Location of intersection.
@@ -177,6 +204,11 @@ struct Ray3D {
 	// Current colour of the ray, should be computed by the shading
 	// function.
 	Color col;
+
+	// ADDED: check if in shadow
+	//bool shadow = false;
+	float tex_u;
+	float tex_v;
 };
 
 struct Camera {    

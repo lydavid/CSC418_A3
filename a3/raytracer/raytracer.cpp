@@ -44,10 +44,16 @@ void Raytracer::computeShading(Ray3D& ray, LightList& light_list) {
 		// Each lightSource provides its own shading function.
 		// Implement shadows here if needed.
 
+		//Point3D origin = ray.intersection.point;
+		//Vector3D direction = ((light->get_position()) - origin);
+		//Ray3D shadowRay = Ray3D(origin, direction);
+
+		//if (!shadowRay.intersection.none) {
+		//	ray.shadow = true;
+		//}
 
 		light->shade(ray);
 		
-		     
 	}
 }
 
@@ -59,6 +65,26 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 	// anything.
 	if (!ray.intersection.none) {
 
+		if (ray.intersection.mat->image) {
+			int width = ray.intersection.mat->texture_width;
+			int height = ray.intersection.mat->texture_height;
+			double u = ray.tex_u;
+			double v = ray.tex_v;
+			int x = u * width;
+			int y = v * height;
+			
+			//https://stackoverflow.com/questions/22420778/texture-mapping-in-a-ray-tracing-for-sphere-in-c
+			int px = x * width + y;
+
+			double r = ray.intersection.mat->rarray[px];
+			double g = ray.intersection.mat->garray[px];
+			double b = ray.intersection.mat->barray[px];
+			col = Color(r, g, b);
+			return col;
+		}
+
+		computeShading(ray, light_list);
+		col = ray.col;
 		/*
 		// iterate through lights to send ray to them
 		for (size_t i = 0; i < light_list.size(); i++) {
@@ -69,17 +95,16 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 			Ray3D shadowRay = Ray3D(origin, direction);
 			
 			
-			if (shadowRay.intersection.none) {
-				computeShading(shadowRay, light_list);
+			if (!shadowRay.intersection.none) {
+				ray.shadow = true;
+				computeShading(ray, light_list);
 				col = ray.col;
 			}
 			else {
-				Point3D origin = shadowRay.intersection.point;
+				computeShading(ray, light_list);
+				col = ray.col;
 			}
-
 		}*/
-		computeShading(ray, light_list); 
-		col = ray.col;  
 	}
 
 	// You'll want to call shadeRay recursively (with a different ray, 
@@ -113,10 +138,10 @@ void Raytracer::render(Camera& camera, Scene& scene, LightList& light_list, Imag
 
 						double random = (double) std::rand() / ((double)RAND_MAX + 1);
 
-						imagePlane[0] = (-double(image.width) / 2 + i + ((q + random) / n)) / factor;
-						imagePlane[1] = (-double(image.height) / 2 + j + ((p + random) / n)) / factor;
+						imagePlane[0] = (-double(image.width) / 2 + (i + ((q + random) / n))) / factor;
+						imagePlane[1] = (-double(image.height) / 2 + (j + ((p + random) / n))) / factor;
 						imagePlane[2] = -1;
-
+						
 						Ray3D ray; 
 						// TODO: Convert ray to world space  
 						Vector3D direction = imagePlane - origin;

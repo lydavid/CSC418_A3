@@ -10,6 +10,7 @@
 #include "light_source.h"
 
 
+
 void PointLight::shade(Ray3D& ray) {
 	// TODO: implement this function to fill in values for ray.col 
 	// using phong shading.  Make sure your vectors are normalized, and
@@ -43,12 +44,14 @@ void PointLight::shade(Ray3D& ray) {
 	//https://bb-2018-01.teach.cs.toronto.edu/t/what-should-be-the-correct-image-for-the-scene-signature/878
 	Color black = Color(0, 0, 0);
 	Color col;
-	if (HARD_SHADOW) {
-		col = black; // color = black?
-	}
-	else {
+
+	
+	//if (ray.shadow) {
+	//	col = black; // color = black?
+	//}
+	//else {
 		col = ambient + diffuse + specular;
-	}
+	//}
 	
 	col.clamp();
 	ray.col = col;
