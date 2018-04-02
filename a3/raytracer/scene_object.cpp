@@ -124,19 +124,11 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 			//Vector3D d_y = Vector3D(0, 1, 0);
 			//Vector3D d_z = Vector3D(0, 0, 1);
 
-			//u = 0.5 + (atan2(normal[2], normal[0])*(1/ 2 * M_PI));
-			//v = 0.5 - (asin(normal[1])*(1 / M_PI));
-
 
 			//Calculating the texture coordinate for a sphere
 			//u = 0.5 + atan2(normal[2], normal[0]) / (2 * M_PI);
 			//v = 0.5 - asin(normal[1]) / M_PI;
 
-			//u = 0.5 + atan2(normal[2], normal[0]) / (2 * M_PI);
-			//v = 0.5 - asin(normal[1]) / M_PI;
-
-			//u = 0.5 + ( atan2(normal[2], normal[0]) / 2 * M_PI );
-			//v = 0.5 - ( 2 * (asin(normal[1]) / (2 * M_PI)) );
 			
 			Vector3D v_n = Vector3D(0, 1, 0);
 			Vector3D v_e = Vector3D(1, 0, 0);
@@ -167,6 +159,85 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	}
 
 	return false;
+}
+
+bool UnitCylinder::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
+	const Matrix4x4& modelToWorld) {
+
+	//source :http://www.cl.cam.ac.uk/teaching/1999/AGraphHCI/SMAG/node2.html#SECTION00023200000000000000
+
+	// Transforming to object space
+	Point3D origin = worldToModel * ray.origin;
+	Vector3D direction = worldToModel * ray.dir;
+	Point3D center = Point3D(0, 0, 0);
+
+	double a = pow(direction[0], 2) + pow(direction[1], 2);
+	double b = (2 * origin[0] * direction[0]) + (2 * origin[1] * direction[1]);
+	double c = pow(origin[0], 2) + pow(origin[1], 2) - 1;
+
+	double determinant = pow(b, 2) - (4 * a * c);
+	double t;
+
+	if (determinant < 0)
+	{
+		return false;
+	}
+
+	double t0 = (-b + sqrt(determinant)) / a;
+	double t1 = (-b - sqrt(determinant)) / a;
+
+	float z0 = origin[2] + t0 * direction[2];
+	float z1 = origin[2] + t1 * direction[2];
+
+
+	bool z0_check = (-1 < z0) && (z0 < 1);
+	bool z1_check = (-1 < z1) && (z1 < 1);
+
+	if (z0_check || z1_check) {
+		t = fmin(z0, z1);
+	}
+
+	//min cap
+	double t2 = (-1 - origin[2]) / direction[2];
+	//max cap
+	double t3 = (1 - origin[2]) / direction[2];
+
+	Point3D p = origin + t * direction;
+	Vector3D normal = center-p;
+	if (z0 > 1) {
+		if (z1 > 1) {
+			return false;
+		}
+		else
+		{
+			p = origin + t3 * direction;
+			normal = Vector3D(0, 1, 0);
+		}
+	}
+	else if (z0 < -1) {
+		if (z1 < -1) {
+			return false;
+		}
+		else {
+			p = origin + t2 * direction;
+			normal = Vector3D(0, -1, 0);
+		}
+	}
+
+	if (ray.intersection.none || ray.intersection.t_value > t) {
+		//p = origin + t * direction;
+		//normal = p - center;
+		normal.normalize();
+		ray.intersection.point = modelToWorld * p;
+		ray.intersection.normal = transNorm(worldToModel, normal);
+		ray.intersection.t_value = t;
+		ray.intersection.none = false;
+		return true;
+	}
+
+	return false;
+
+
 }
 
 void SceneNode::rotate(char axis, double angle) {

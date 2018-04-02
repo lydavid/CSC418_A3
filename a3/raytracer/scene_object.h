@@ -77,3 +77,10 @@ public:
 				const Matrix4x4& modelToWorld);
 };
 
+//ADD a cyclinder maybe
+class UnitCylinder : public SceneObject {
+public:
+	bool intersect(Ray3D& ray, const Matrix4x4& worldToModel,
+		const Matrix4x4& modelToWorld);
+};
+
