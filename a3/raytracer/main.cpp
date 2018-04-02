@@ -23,10 +23,10 @@ int main(int argc, char* argv[])
 		height = atoi(argv[2]);
 	}
 
-	//default_scene(width, height);
+	default_scene(width, height);
 	//sphere_map(width, height);
 	//cube_map(width, height);
-	cylinder_scene(width, height);
+	//cylinder_scene(width, height);
 
 	//getchar();
 	return 0;

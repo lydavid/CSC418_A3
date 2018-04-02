@@ -17,9 +17,9 @@
 #endif
 
 #define ANTIALIAS false
-#define HARD_SHADOW true
+#define HARD_SHADOW false
 #define SOFT_SHADOW false
-#define TEXTURE_SPHERE true
+#define TEXTURE_SPHERE false
 
 
 class Point3D {
@@ -207,7 +207,6 @@ struct Ray3D {
 	// Current colour of the ray, should be computed by the shading
 	// function.
 	Color col;
-
 
 	// ADDED: check if in shadow
 	//bool shadow = false;

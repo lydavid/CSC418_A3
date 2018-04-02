@@ -95,8 +95,8 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 			return col;
 		}
 
-		computeShading(ray, light_list);
-		col = ray.col;
+		//computeShading(ray, light_list);
+		//col = ray.col;
 		/*
 
 		// iterate through lights to send ray to them
@@ -187,8 +187,6 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 				}
 			}
 		}
-		
-
 
 
 		computeShading(ray, light_list); 
