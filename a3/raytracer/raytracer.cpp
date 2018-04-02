@@ -173,8 +173,6 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 
 					}
 				}
-				computeShading(ray, light_list);
-				col = ray.col;
 			}
 		}
 		

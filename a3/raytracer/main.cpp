@@ -23,10 +23,20 @@ int main(int argc, char* argv[])
 		height = atoi(argv[2]);
 	}
 
-	default_scene(width, height);
-	//sphere_map(width, height);
-	//cube_map(width, height);
-	//cylinder_scene(width, height);
+
+	// change variable to change between scenes
+	int scene_number = 0;
+
+	switch (scene_number) {
+	case 0: default_scene(width, height);
+		break;
+	case 1: sphere_map(width, height);
+		break;
+	case 2: cylinder_scene(width, height);
+		break;
+	case 3: cube_map(width, height);
+		break;
+	}
 
 	//getchar();
 	return 0;
