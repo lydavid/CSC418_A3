@@ -17,7 +17,7 @@
 #endif
 
 #define ANTIALIAS false
-#define HARD_SHADOW false
+#define HARD_SHADOW true
 #define SOFT_SHADOW false
 #define TEXTURE_SPHERE false
 

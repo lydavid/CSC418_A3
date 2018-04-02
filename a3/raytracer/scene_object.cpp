@@ -312,6 +312,6 @@ void SceneNode::scale(Point3D origin, double factor[3] ) {
 	scale[2][2] = 1/factor[2];
 	scale[2][3] = origin[2] - 1/factor[2] * origin[2];
 	this->invtrans = scale*this->invtrans; 
-}
+} 
 
 

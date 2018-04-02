@@ -107,9 +107,6 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 			Point3D origin = ray.intersection.point;
 			Vector3D direction = ((light->get_position()) - origin);
 			Ray3D shadowRay = Ray3D(origin, direction);
-			
-			
-
 			if (shadowRay.intersection.none) {
 				computeShading(shadowRay, light_list);
 				//col = ray.col;
@@ -125,20 +122,6 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 				col = ray.col;
 			}
 
-			
-
-		}*/
-
-		/*for (light in scene) {
-			shadowRay= create ray from intersection to light;
-			findIntersections(shadowRay);
-			if(shadowRay.intersection.none) {
-				color += phongIllumination(light, ray);
-			}
-		}
-		if (depth > 0) {
-			reflectRay= create a reflected ray at the intersection;
-			color += shadeRay(reflectRay, --depth);
 		}*/
 
 		if (HARD_SHADOW) {
@@ -190,6 +173,8 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 
 					}
 				}
+				computeShading(ray, light_list);
+				col = ray.col;
 			}
 		}
 		
