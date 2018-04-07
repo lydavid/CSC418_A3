@@ -109,7 +109,7 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		}
 
 		Point3D p = origin + t * direction;
-		Vector3D normal = 2 * (p - center);
+		Vector3D normal = (p - center);
 		normal.normalize();
 
 		if (TEXTURE_SPHERE) 
@@ -151,11 +151,14 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 
 		}
 
-		ray.intersection.point = modelToWorld * p;
-		ray.intersection.normal = transNorm(worldToModel, normal);
-		ray.intersection.t_value = t;
-		ray.intersection.none = false;
-		return true;
+		//if (ray.intersection.none || ray.intersection.t_value > t) {
+
+			ray.intersection.point = modelToWorld * p;
+			ray.intersection.normal = transNorm(worldToModel, normal);
+			ray.intersection.t_value = t;
+			ray.intersection.none = false;
+			return true;
+		//}
 	}
 
 	return false;
