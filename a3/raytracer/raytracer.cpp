@@ -77,7 +77,9 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 	// anything.
 	if (!ray.intersection.none) {
 
-		if (TEXTURE_SPHERE) {
+
+		// texturing
+		if (TEXTURE) {
 			if (ray.intersection.mat->image) {
 				int width = ray.intersection.mat->texture_width;
 				int height = ray.intersection.mat->texture_height;
@@ -96,46 +98,14 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 				return col;
 			}
 		}
-		
 
-		//computeShading(ray, light_list);
-		//col = ray.col;
-		/*
-
-		// iterate through lights to send ray to them
-		/*for (size_t i = 0; i < light_list.size(); i++) {
-			LightSource* light = light_list[i];
-			Point3D origin = ray.intersection.point;
-			Vector3D direction = ((light->get_position()) - origin);
-			Ray3D shadowRay = Ray3D(origin, direction);
-			if (shadowRay.intersection.none) {
-				computeShading(shadowRay, light_list);
-				//col = ray.col;
-
-			if (!shadowRay.intersection.none) {
-				ray.shadow = true;
-				computeShading(ray, light_list);
-				col = ray.col;
-
-			}
-			else {
-				computeShading(ray, light_list);
-				col = ray.col;
-			}
-
-		}*/
-
+		// shadows
 		if (HARD_SHADOW) { 
 
 			// for each light in scene
 			for (size_t i = 0; i < light_list.size(); i++) {
 				LightSource* light = light_list[i];
 				Point3D light_pos = light->get_position();
-
-				/*Vector3D shadowRayDirection = light_pos - ray.intersection.point;
-				shadowRayDirection.normalize();
-				float epsilon = 0.01;
-				Point3D shadowRayStart = ray.intersection.point + (epsilon * shadowRayDirection);*/
 
 				Vector3D shadowRayDirection = light_pos - ray.intersection.point;
 				shadowRayDirection.normalize();
@@ -149,25 +119,13 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 
 
 				if (!shadowRay.intersection.none) {
-					//computeShading(ray, light_list);
-					//float lenShadowRay = (shadowRay.intersection.point - ray.intersection.point).length();
-					//float lenRay = (light_pos - ray.intersection.point).length();
-					//if (lenShadowRay < lenRay) {
 					ray.intersection.inShadow = true;
 					break; 
-					//}
+				
 				}
 				else {
 					ray.intersection.inShadow = false;
 				}
-
-				/*if (shadowRay.intersection.none) {
-					computeShading(ray, light_list); 
-				}*/
-				
-
-
-
 				/*
 
 				//Check N.L < 0
@@ -180,40 +138,7 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 					float epsilon = 0.000001;
 					Vector3D shadowRayDirection = (light->get_position() - ray.intersection.point);
 					shadowRayDirection.normalize();
-					Point3D shadowRayStart = ray.intersection.point + epsilon * shadowRayDirection;
-
-					//Vector3D shadowRayDirection = light->get_position() - ray.intersection.point;
-					//Point3D shadowRayStart = ray.intersection.point + epsilon * shadowRayDirection;// * shadowRayDirection;
-					Ray3D shadowRay = Ray3D(shadowRayStart, shadowRayDirection);
-
-					//Point3D origin = ray.intersection.point + epsilon * light->get_position();
-					//Vector3D direction = ((light->get_position()) - origin);
-					//Ray3D shadowRay = Ray3D(origin, direction);
-
-					//Ray3D shadowRay = Ray3D(ray.intersection.point, light->get_position());
-
-					traverseScene(scene, shadowRay);  // find intersections
-													  //printf("%f\n", shadowRay.intersection.t_value);
-													  //std::cout <<  + "\n";
-
-													  //if (shadowRay.intersection.t_value > epsilon) {
-													  //ray.intersection.inShadow = false;
-													  //} else {
-													  //ray.intersection.inShadow = true;
-													  //}
-
-					if (shadowRay.intersection.none) {
-						//computeShading(ray, light_list);
-						ray.intersection.inShadow = false;
-
-					}
-					else {
-						ray.intersection.inShadow = true;
-
-
-
-					}
-				}*/
+					Point3D shadowRayStart = ray.intersection.point + epsilon * shadowRayDirection;*/
 			}
 		}
 
