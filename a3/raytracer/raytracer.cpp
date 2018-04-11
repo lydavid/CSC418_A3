@@ -69,6 +69,10 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 	Color col(0.0, 0.0, 0.0); 
 	traverseScene(scene, ray); 
 
+
+	
+
+
 	// Don't bother shading if the ray didn't hit 
 	// anything.
 	if (!ray.intersection.none) {
@@ -121,31 +125,45 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 
 		}*/
 
-		if (HARD_SHADOW) {
+		if (HARD_SHADOW) { 
+
 			// for each light in scene
 			for (size_t i = 0; i < light_list.size(); i++) {
 				LightSource* light = light_list[i];
 				Point3D light_pos = light->get_position();
+
+				/*Vector3D shadowRayDirection = light_pos - ray.intersection.point;
+				shadowRayDirection.normalize();
+				float epsilon = 0.01;
+				Point3D shadowRayStart = ray.intersection.point + (epsilon * shadowRayDirection);*/
+
 				Vector3D shadowRayDirection = light_pos - ray.intersection.point;
 				shadowRayDirection.normalize();
 				float epsilon = 0.01;
 				Point3D shadowRayStart = ray.intersection.point + (epsilon * shadowRayDirection);
+
+
 				Ray3D shadowRay = Ray3D(shadowRayStart, shadowRayDirection);
 
-				traverseScene(scene, shadowRay);
+				traverseScene(scene, shadowRay); 
 
 
 				if (!shadowRay.intersection.none) {
 					//computeShading(ray, light_list);
-					float lenShadowRay = (shadowRay.intersection.point - ray.intersection.point).length();
-					float lenRay = (light_pos - ray.intersection.point).length();
-					if (lenShadowRay < lenRay) {
-						ray.intersection.inShadow = true;
-					}
+					//float lenShadowRay = (shadowRay.intersection.point - ray.intersection.point).length();
+					//float lenRay = (light_pos - ray.intersection.point).length();
+					//if (lenShadowRay < lenRay) {
+					ray.intersection.inShadow = true;
+					break; 
+					//}
 				}
 				else {
 					ray.intersection.inShadow = false;
 				}
+
+				/*if (shadowRay.intersection.none) {
+					computeShading(ray, light_list); 
+				}*/
 				
 
 
@@ -198,14 +216,41 @@ Color Raytracer::shadeRay(Ray3D& ray, Scene& scene, LightList& light_list) {
 				}*/
 			}
 		}
-	
 
-		computeShading(ray, light_list); 
-		col = ray.col;  
+		// from here, recursively call shadeRay, accumulating color up to a max depth
+		if (ray.depth > ray.maxDepth) {
+			//computeShading(ray, light_list); 
+			//col = col + ray.col;
+
+		} else {
+
+			if (ray.intersection.mat->reflective) {
+				Vector3D dir = ray.dir;
+				dir.normalize();
+				Vector3D normal = ray.intersection.normal;
+				normal.normalize();
+				Vector3D R = dir - 2 * dir.dot(normal) * normal;
+				R.normalize();
+
+				Point3D newOrig = ray.intersection.point + ray.intersection.normal;
+				Vector3D newDir = R;
+				Ray3D newRay = Ray3D(newOrig, newDir);
+				newRay.depth = ray.depth + 1;
+				col = col + 0.8 * shadeRay(newRay, scene, light_list);
+			}
+
+		}
+		
+
+		// for now, treat everything as reflective, and only add in diffuse color on maxDepth
+		// probably need to clamp this value
 	}
 
 	// You'll want to call shadeRay recursively (with a different ray, 
 	// of course) here to implement reflection/refraction effects.  
+	computeShading(ray, light_list); 
+	col = col + ray.col;
+	//col.clamp();
 
 	return col; 
 }	

@@ -17,7 +17,7 @@
 #endif
 
 #define ANTIALIAS false
-#define HARD_SHADOW true
+#define HARD_SHADOW false
 #define SOFT_SHADOW false
 #define TEXTURE_SPHERE false
 
@@ -135,6 +135,11 @@ struct Material {
 		ambient(ambient), diffuse(diffuse), specular(specular), 
 		specular_exp(exp) {}
 
+	// create material with reflective surface
+	Material(Color ambient, Color diffuse, Color specular, double exp, bool reflective) :
+		ambient(ambient), diffuse(diffuse), specular(specular), 
+		specular_exp(exp), reflective(reflective) {}
+
 	// creating a new material that will be mapped from img
 	Material(int w, int h, unsigned char *r, unsigned char *g, unsigned char *b) :
 		texture_width(w), texture_height(h), 
@@ -158,6 +163,10 @@ struct Material {
 	unsigned char *rarray;
 	unsigned char *garray;
 	unsigned char *barray;
+
+	// reflective
+	bool reflective = false;
+
 };
 
 /* Actually nvm easier just to add it to material so don't have to modify addObject 
@@ -212,6 +221,10 @@ struct Ray3D {
 	//bool shadow = false;
 	float tex_u;
 	float tex_v;
+
+	// max depth for recursive raytracing and reflections
+	int maxDepth = 0;
+	int depth = 0;
 
 };
 
