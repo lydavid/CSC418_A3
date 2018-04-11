@@ -25,7 +25,7 @@ void PointLight::shade(Ray3D& ray) {
 	Vector3D viewVec = -ray.dir;
 	viewVec.normalize();
 	
-
+	// Light and reflect vectors
 	Point3D light_pos = get_position();
 	Vector3D lightDir = ( light_pos - intersect.point );
 	lightDir.normalize();
@@ -35,6 +35,8 @@ void PointLight::shade(Ray3D& ray) {
 	Vector3D h = pow((viewVec + lightDir).length(), -1) * (viewVec + lightDir);
 	Color white = Color(255, 255, 255);
 
+
+	// ambient, diffuse, specular vals
 	Color ambient = mat->ambient * col_ambient;
 	Color diffuse = fmax(0, lightDir.dot(normal)) * (mat->diffuse * col_diffuse);
 	//float spec = fmax(0, viewVec.dot(reflection));
@@ -47,7 +49,7 @@ void PointLight::shade(Ray3D& ray) {
 	Color col;
 
 	
-
+	// switch colors for different shadows
 	if (HARD_SHADOW) {
 
 		if (ray.intersection.inShadow) {

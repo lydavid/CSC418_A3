@@ -1,0 +1,11 @@
+Xin Yi (Jason), Wang
+David Ly
+
+
+
+We placed all image results in a3/raytracer/images
+
+Everything was completed for Part A
+However, Part B was mostly partially completed.
+
+Code for 

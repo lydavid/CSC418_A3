@@ -19,7 +19,7 @@
 #define ANTIALIAS false
 #define HARD_SHADOW false
 #define SOFT_SHADOW false
-#define TEXTURE_SPHERE false
+#define TEXTURE false
 
 
 class Point3D {

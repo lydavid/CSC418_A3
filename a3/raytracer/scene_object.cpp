@@ -44,7 +44,19 @@ bool UnitSquare::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 
 	Point3D p = origin + t * direction;
 	Vector3D normal = Vector3D(0, 0, 1);
+
+
 	
+	if (TEXTURE) 
+	{
+		double u, v;
+
+		ray.tex_u = u;
+		ray.tex_v = v;
+
+	}
+	
+	// check boundaries
 	if (p[0] >= -0.5 && p[0] <= 0.5 && p[1] >= -0.5 && p[1]<=0.5)
 	{
 		ray.intersection.point = modelToWorld * p;
@@ -82,6 +94,7 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	double b = (2*direction).dot(origin - center);
 	double c = (origin - center).dot(origin - center) - pow(radius, 2);
 
+	// det from quadratic formula
 	double determinant = pow(b, 2) - (4 * a * c);
 	double t = 0;
 	if (determinant < 0)
@@ -90,7 +103,7 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 	}
 	else
 	{
-		
+		// possible solutions up to 2
 		double t1 = (-direction.dot(origin - center) + sqrt(determinant)) / a;
 		double t2 = (-direction.dot(origin - center) - sqrt(determinant)) / a;
 
@@ -112,7 +125,9 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		Vector3D normal = (p - center);
 		normal.normalize();
 
-		if (TEXTURE_SPHERE) 
+
+		// for texturing a sphere
+		if (TEXTURE) 
 		{
 			// source: https://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
 			
@@ -186,6 +201,7 @@ bool UnitCylinder::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 		return false;
 	}
 
+	// intersections with wall vals 
 	double t0 = (-b + sqrt(determinant)) / a;
 	double t1 = (-b - sqrt(determinant)) / a;
 
