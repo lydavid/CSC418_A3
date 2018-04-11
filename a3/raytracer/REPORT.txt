@@ -8,6 +8,14 @@ We placed all image results in a3/raytracer/images
 Everything was completed for Part A
 However, Part B was mostly partially completed.
 
+In images folder, part A imgs are named as required.
+As for part B our attempts:
+
+AAview1/AAview2 is for antialiasing
+CYCLINDERview1/2 is for cyclinder
+TEX_SPHEREview1/2 is for texure
+view1_HS1/2 and view2_HS1/2 is for shadows
+
 
 CODE STRUCTURE
 
