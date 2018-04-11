@@ -1,11 +1,53 @@
-Xin Yi (Jason), Wang
-David Ly
+Xin Yi (Jason) Wang, 1001379028
+David Ly, 
 
-
+OVERALL
 
 We placed all image results in a3/raytracer/images
 
 Everything was completed for Part A
 However, Part B was mostly partially completed.
 
-Code for 
+
+CODE STRUCTURE
+
+We combined the code for both Part A and Part B
+
+So in util.h we set booleans for each individual feature to be on or off
+Raytracer does nothing if we combine multiple? Some error on our features?
+Basically turn individual bools to true or false.
+
+Then in main.cpp we set up multiple different scenes to run.
+There is a scene_number var and 0 is default, 1 is sphere tex, and 2 is cylinder.
+Other than than we just run AA and shadows with default scene.
+
+So, Part A is just running default scene with all bools in util false.
+
+
+IMPLEMENTATION
+
+For Part B, we implemented (or tried to) the following:
+
+- hard/soft shadows
+- reflection/refraction
+- antialiasing
+- texturing
+- other shapes (a cyclinder)
+
+The results are in the images folder under a3/raytracer
+
+
+SOURCES
+
+All the sources should be noted here, if we missed any we also wrote the source down in the code where we referenced them.
+
+- raytracer slides
+- textbook
+https://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html
+http://www.cl.cam.ac.uk/teaching/1999/AGraphHCI/SMAG/node2.html#SECTION00023200000000000000
+https://stackoverflow.com/questions/22420778/texture-mapping-in-a-ray-tracing-for-sphere-in-c
+
+
+ROLES
+
+We split up the work and we helped each other debug our code.
