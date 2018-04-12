@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+
 void default_scene(int width, int height)
 {
 	// Build your scene and setup your camera here, by calling 
@@ -60,6 +61,7 @@ void default_scene(int width, int height)
 	Material jade(Color(0, 0, 0), Color(0.54, 0.89, 0.63),
 		Color(0.316228, 0.316228, 0.316228),
 		12.8, true);
+
 
 	// Defines a point light source.
 	PointLight* pLight = new PointLight(Point3D(0, 0, 5), Color(0.9, 0.9, 0.9));

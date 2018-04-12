@@ -166,14 +166,12 @@ bool UnitSphere::intersect(Ray3D& ray, const Matrix4x4& worldToModel,
 
 		}
 
-		//if (ray.intersection.none || ray.intersection.t_value > t) {
 
-			ray.intersection.point = modelToWorld * p;
-			ray.intersection.normal = transNorm(worldToModel, normal);
-			ray.intersection.t_value = t;
-			ray.intersection.none = false;
-			return true;
-		//}
+		ray.intersection.point = modelToWorld * p;
+		ray.intersection.normal = transNorm(worldToModel, normal);
+		ray.intersection.t_value = t;
+		ray.intersection.none = false;
+		return true;
 	}
 
 	return false;

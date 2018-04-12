@@ -16,10 +16,11 @@
 #define M_PI	3.14159265358979323846
 #endif
 
-#define ANTIALIAS false
+#define ANTIALIAS true
 #define HARD_SHADOW false
 #define SOFT_SHADOW false
 #define TEXTURE false
+#define RECURSIVE false
 
 
 class Point3D {

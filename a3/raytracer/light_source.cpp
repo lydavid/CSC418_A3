@@ -33,16 +33,15 @@ void PointLight::shade(Ray3D& ray) {
 	reflection.normalize();
 
 	Vector3D h = pow((viewVec + lightDir).length(), -1) * (viewVec + lightDir);
-	Color white = Color(255, 255, 255);
-
 
 	// ambient, diffuse, specular vals
 	Color ambient = mat->ambient * col_ambient;
 	Color diffuse = fmax(0, lightDir.dot(normal)) * (mat->diffuse * col_diffuse);
-	//float spec = fmax(0, viewVec.dot(reflection));
-	//Color specular = pow(spec, mat->specular_exp) * (mat->specular * col_specular);
 
 	Color specular = pow(h.dot(normal), mat->specular_exp) * (mat->specular * col_specular);
+
+	//float spec = fmax(0, viewVec.dot(reflection));
+	//Color specular = pow(spec, mat->specular_exp) * (mat->specular * col_specular);
 	
 	//https://bb-2018-01.teach.cs.toronto.edu/t/what-should-be-the-correct-image-for-the-scene-signature/878
 	Color black = Color(0, 0, 0);
@@ -58,6 +57,7 @@ void PointLight::shade(Ray3D& ray) {
 			col = ambient + diffuse + specular;
 		}
 		//col = ambient + diffuse + specular;
+		//col = ambient;
 
 	} else if (SOFT_SHADOW) {
 		if (ray.intersection.inShadow) {
@@ -65,6 +65,7 @@ void PointLight::shade(Ray3D& ray) {
 		} else {
 			col = ambient + diffuse + specular;
 		}
+		
 	} else {
 		col = ambient + diffuse + specular;
 	}
