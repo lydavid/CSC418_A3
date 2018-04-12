@@ -23,7 +23,9 @@ We combined the code for both Part A and Part B
 
 So in util.h we set booleans for each individual feature to be on or off
 Raytracer does nothing if we combine multiple? Some error on our features?
-Basically turn individual bools to true or false.
+Basically turn individual bools to true or false. Util.h is in make file
+but when we modify util.h and call make it doesn't recompile, so we need
+to change a main file and util bool then recompile.
 
 Then in main.cpp we set up multiple different scenes to run.
 There is a scene_number var and 0 is default, 1 is sphere tex, and 2 is cylinder.
