@@ -33,6 +33,19 @@ Other than than we just run AA and shadows with default scene.
 
 So, Part A is just running default scene with all bools in util false.
 
+The code for antialiasing is in Raytracer::render function in raytracer.cpp
+Commented out the part where antialiasing is coded
+
+
+The code for cyclinder is in scene_object.cpp and we made a new UnitCylinder::intersect
+function for the cylinder.
+
+Code for shadows is in light_source.cpp and raytracer.cpp (shadeRay function). Also code
+for reflection is in this function too.
+
+Code for texure is mainly in scene_object.cpp in UniSphere function for sphere texturing,
+made some unkwnown edits that causing seg faults and errors. The other code for texturing
+is in raytracer.cpp of shadeRay function. What we had working is shown in the images folder.
 
 IMPLEMENTATION
 
